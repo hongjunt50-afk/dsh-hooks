@@ -26,12 +26,20 @@ function check(label, cond, extra) {
 function makeCtx() {
   const listeners = new Map()
   const logs = []
+  const services = new Map()
   const ctx = {
     on(event, handler) {
       const list = listeners.get(event) ?? []
       list.push(handler)
       listeners.set(event, list)
       return () => {}
+    },
+    get(name) {
+      return services.get(name)
+    },
+    effect(fn) {
+      const dispose = fn()
+      return () => dispose?.()
     },
     logger: { info: (m) => logs.push(['info', m]), warn: (m) => logs.push(['warn', m]) },
   }
@@ -40,7 +48,7 @@ function makeCtx() {
     if (!list.length) return undefined
     return list[0](...args)
   }
-  return { ctx, emit, logs }
+  return { ctx, emit, logs, services }
 }
 
 const dir = mkdtempSync(join(tmpdir(), 'dsh-hooks-smoke-'))
@@ -220,14 +228,15 @@ let idleOk = false
 try {
   await emit4('agent/created', { agent, source: 'startup' })
   const down = await emit4('system-prompt/assemble', { contexts: [] }, { agent: { session } }, async () => ({
-    contexts: [],
+    contexts: ['DOWNSTREAM'],
   }))
-  // 无配置时插件不注册任何监听，emit 返回 undefined 即为安全空转。
-  idleOk = down === undefined
+  // v0.2.0 起监听始终注册（运行时按 has() 判断，设置页新增事件无需重启），
+  // 因此空配置下的判据是「一行不改地放行下游」，而不是「没注册监听」。
+  idleOk = Array.isArray(down?.contexts) && down.contexts.length === 1 && down.contexts[0] === 'DOWNSTREAM'
 } catch {
   idleOk = false
 }
-check('无配置时安全空转（不注册监听、不抛错）', idleOk)
+check('无配置时安全空转（不改动下游、不抛错）', idleOk)
 
 const { ctx: ctx5, emit: emit5 } = makeCtx()
 apply(ctx5, { disabled: true })
