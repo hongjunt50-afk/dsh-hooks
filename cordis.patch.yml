@@ -1,0 +1,7 @@
+- insert:
+    - id: dsh-hooks
+      name: "@dsh-external/dsh-hooks"
+      config:
+        disabled: false
+        stopBlockLimit: 1
+        debug: false

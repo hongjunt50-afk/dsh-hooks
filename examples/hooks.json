@@ -1,0 +1,31 @@
+{
+  "hooks": {
+    "SessionStart": [
+      "node F:/AI/projects/dsh-hooks/examples/greet.mjs"
+    ],
+    "UserPromptSubmit": [
+      {
+        "command": "node F:/AI/projects/dsh-hooks/examples/recall.mjs",
+        "timeoutMs": 10000
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "pwsh|shell",
+        "command": "node F:/AI/projects/dsh-hooks/examples/guard-danger.mjs"
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "write|edit",
+        "command": "node F:/AI/projects/dsh-hooks/examples/after-edit.mjs"
+      }
+    ],
+    "Stop": [
+      {
+        "command": "node F:/AI/projects/dsh-hooks/examples/stop-nudge.mjs",
+        "timeoutMs": 10000
+      }
+    ]
+  }
+}
