@@ -1,8 +1,8 @@
 {
   "name": "@dsh-external/dsh-hooks",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
-  "description": "DeepSeek Harness 通用钩子框架：用 Claude Code 风格的 hooks.json 驱动 DSH 原生事件（SessionStart / UserPromptSubmit / PreToolUse / PostToolUse / Stop）",
+  "description": "DeepSeek Harness 通用钩子框架：用 Claude Code 风格的 hooks.json 驱动 DSH 原生事件（SessionStart / UserPromptSubmit / PreToolUse / PostToolUse / Stop），带消息级运行记录与设置页。",
   "keywords": [
     "deepseek-harness",
     "dsh",
@@ -14,10 +14,12 @@
   "main": "lib/index.js",
   "exports": {
     ".": "./lib/index.js",
+    "./client": "./client.js",
     "./package.json": "./package.json"
   },
   "files": [
     "lib",
+    "client.js",
     "cordis.patch.yml",
     "examples",
     "README.md"
@@ -25,6 +27,14 @@
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-ui-settings"
+      ]
     }
   },
   "engines": {
