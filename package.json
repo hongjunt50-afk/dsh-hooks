@@ -1,6 +1,6 @@
 {
   "name": "@dsh-external/dsh-hooks",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "description": "DeepSeek Harness 通用钩子框架：用 Claude Code 风格的 hooks.json 驱动 DSH 原生事件（SessionStart / UserPromptSubmit / PreToolUse / PostToolUse / Stop），带消息级运行记录与设置页。",
   "keywords": [
