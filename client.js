@@ -38,11 +38,12 @@ window.__ModuleLoader__.load({
 
     const CSS = [
       '.hk-wrap{position:relative;display:inline-flex;align-items:center}',
-      '.hk-btn{display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 8px;border:1px solid transparent;border-radius:6px;background:transparent;color:var(--dsw-alias-label-secondary);font-size:12px;line-height:1;cursor:pointer;transition:background .12s ease,color .12s ease}',
+      '.hk-btn{display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 7px;border:1px solid transparent;border-radius:6px;background:transparent;color:var(--dsw-alias-label-secondary);font-size:14px;line-height:1;cursor:pointer;transition:background .12s ease,color .12s ease}',
       '.hk-btn:hover{background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary)}',
-      '.hk-btn[data-active="true"]{color:var(--dsw-alias-brand-primary)}',
+      '.hk-btn[data-active="true"]{color:var(--dsw-alias-brand-primary);background:var(--dsw-alias-bg-layer-2)}',
       '.hk-badge{min-width:15px;height:15px;padding:0 4px;border-radius:999px;background:var(--dsw-alias-brand-primary);color:#fff;font-size:10px;line-height:15px;text-align:center;font-variant-numeric:tabular-nums}',
-      '.hk-pop{position:absolute;z-index:60;right:0;bottom:calc(100% + 6px);width:380px;max-height:340px;overflow:auto;background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l1);border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.2);padding:8px;text-align:left}',
+      // 浮层必须 position:fixed —— 消息列表容器有 overflow 裁剪，absolute 会被切掉。
+      '.hk-pop{position:fixed;z-index:2147483000;width:380px;max-height:50vh;overflow:auto;background:var(--dsw-alias-bg-layer-1);border:1px solid var(--dsw-alias-border-l1);border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.28);padding:8px;text-align:left;box-sizing:border-box}',
       '.hk-pop-head{display:flex;align-items:center;justify-content:space-between;padding:2px 6px 8px;font-size:11px;font-weight:600;color:var(--dsw-alias-label-secondary);text-transform:uppercase;letter-spacing:.04em}',
       '.hk-row{display:flex;align-items:flex-start;gap:8px;padding:7px 8px;border-radius:7px;font-size:12px;color:var(--dsw-alias-label-primary)}',
       '.hk-row:hover{background:var(--dsw-alias-bg-layer-2)}',
@@ -61,11 +62,29 @@ window.__ModuleLoader__.load({
       '.hk-card h4{margin:0 0 4px;font-size:13px;font-weight:600}',
       '.hk-card p{margin:0;font-size:12px;color:var(--dsw-alias-label-secondary);line-height:1.6}',
       '.hk-path{font-family:ui-monospace,Consolas,monospace;font-size:11px;color:var(--dsw-alias-label-secondary);word-break:break-all}',
-      '.hk-ev{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;border:1px solid var(--dsw-alias-border-l1);margin-top:8px}',
-      '.hk-ev[data-on="true"]{border-color:color-mix(in srgb,var(--dsw-alias-brand-primary) 45%,transparent);background:color-mix(in srgb,var(--dsw-alias-brand-primary) 8%,transparent)}',
+      '.hk-ev{display:flex;flex-direction:column;gap:8px;padding:10px 12px;border-radius:8px;border:1px solid var(--dsw-alias-border-l1);margin-top:8px}',
+      '.hk-ev[data-on="true"]{border-color:color-mix(in srgb,var(--dsw-alias-brand-primary) 45%,transparent);background:color-mix(in srgb,var(--dsw-alias-brand-primary) 6%,transparent)}',
+      '.hk-ev-head{display:flex;align-items:center;gap:8px}',
       '.hk-ev-name{font-weight:600;font-size:12px}',
       '.hk-ev-desc{font-size:11px;color:var(--dsw-alias-label-secondary)}',
       '.hk-ev-cnt{margin-left:auto;flex:none;font-size:11px;color:var(--dsw-alias-label-secondary);font-variant-numeric:tabular-nums}',
+      // 单条钩子
+      '.hk-item{display:flex;align-items:flex-start;gap:8px;padding:7px 9px;border-radius:7px;background:var(--dsw-alias-bg-layer-2);font-size:12px}',
+      '.hk-item[data-off="true"]{opacity:.55}',
+      '.hk-item-main{flex:1;min-width:0}',
+      '.hk-item-cmd{font-family:ui-monospace,Consolas,monospace;font-size:11px;line-height:1.45;word-break:break-all;white-space:pre-wrap}',
+      '.hk-item-sub{margin-top:2px;font-size:10px;color:var(--dsw-alias-label-secondary)}',
+      '.hk-mini{flex:none;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid var(--dsw-alias-border-l1);background:var(--dsw-alias-bg-layer-1);color:var(--dsw-alias-label-secondary);font-size:11px;cursor:pointer;padding:0}',
+      '.hk-mini:hover{border-color:var(--dsw-alias-brand-primary);color:var(--dsw-alias-label-primary)}',
+      '.hk-mini[data-on="true"]{color:#2f9e5f;border-color:color-mix(in srgb,#2f9e5f 50%,transparent)}',
+      // 添加表单
+      '.hk-form{display:flex;flex-direction:column;gap:6px;padding:9px 10px;border-radius:7px;border:1px dashed var(--dsw-alias-border-l1)}',
+      '.hk-form-row{display:flex;align-items:center;gap:8px}',
+      '.hk-lbl{flex:none;width:70px;font-size:11px;color:var(--dsw-alias-label-secondary)}',
+      '.hk-inp{flex:1;min-width:0;box-sizing:border-box;padding:5px 8px;font-size:12px;font-family:ui-monospace,Consolas,monospace;border-radius:6px;border:1px solid var(--dsw-alias-border-l1);background:var(--dsw-alias-bg-layer-1);color:var(--dsw-alias-label-primary);outline:none}',
+      '.hk-inp:focus{border-color:var(--dsw-alias-brand-primary)}',
+      'textarea.hk-inp{min-height:52px;resize:vertical;line-height:1.5}',
+      '.hk-empty-sm{padding:6px 2px;font-size:11px;color:var(--dsw-alias-label-secondary)}',
       '.hk-editor{width:100%;box-sizing:border-box;min-height:260px;resize:vertical;font-family:ui-monospace,Consolas,monospace;font-size:12px;line-height:1.55;padding:10px 12px;border-radius:8px;border:1px solid var(--dsw-alias-border-l1);background:var(--dsw-alias-bg-layer-2);color:var(--dsw-alias-label-primary);outline:none}',
       '.hk-editor:focus{border-color:var(--dsw-alias-brand-primary)}',
       '.hk-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}',
@@ -132,8 +151,11 @@ window.__ModuleLoader__.load({
       const [open, setOpen] = useState(false)
       const [runs, setRuns] = useState([])
       const [err, setErr] = useState('')
+      // 浮层坐标：position:fixed + 按钮的视口矩形，绕开消息容器的 overflow 裁剪。
+      const [pos, setPos] = useState(null)
       const timer = useRef(null)
       const box = useRef(null)
+      const btn = useRef(null)
 
       const load = useCallback(async () => {
         if (!sessionId) return
@@ -146,13 +168,36 @@ window.__ModuleLoader__.load({
         }
       }, [sessionId])
 
+      // 量按钮位置。上方放不下就翻到下方，左右再夹回视口内。
+      const place = useCallback(() => {
+        const el = btn.current
+        if (!el) return
+        const r = el.getBoundingClientRect()
+        const W = 380
+        const H = Math.min(Math.round(window.innerHeight * 0.5), 340)
+        const gap = 6
+        const above = r.top - gap - H
+        const top = above >= 8 ? above : Math.min(r.bottom + gap, window.innerHeight - H - 8)
+        let left = r.right - W
+        left = Math.max(8, Math.min(left, window.innerWidth - W - 8))
+        setPos({ top: Math.max(8, top), left })
+      }, [])
+
       useEffect(() => {
         if (!open) return undefined
         load()
-        // 面板开着时轻量轮询，保证跑着的钩子能实时出现。
+        place()
         const id = setInterval(load, 3000)
-        return () => clearInterval(id)
-      }, [open, load])
+        // 滚动/缩放时重算，否则消息列表一滚浮层就飘走。
+        const onMove = () => place()
+        window.addEventListener('scroll', onMove, true)
+        window.addEventListener('resize', onMove)
+        return () => {
+          clearInterval(id)
+          window.removeEventListener('scroll', onMove, true)
+          window.removeEventListener('resize', onMove)
+        }
+      }, [open, load, place])
 
       useEffect(() => {
         if (!open) return undefined
@@ -186,18 +231,20 @@ window.__ModuleLoader__.load({
           'button',
           {
             className: 'hk-btn',
+            ref: btn,
             type: 'button',
             title: '钩子运行记录',
+            'aria-label': '钩子',
             'data-active': open ? 'true' : 'false',
             onClick: () => setOpen((v) => !v),
           },
-          '钩子',
+          '🪝',
           runs.length ? h('span', { className: 'hk-badge' }, String(runs.length > 99 ? '99+' : runs.length)) : null,
         ),
-        open
+        open && pos
           ? h(
               'div',
-              { className: 'hk-pop' },
+              { className: 'hk-pop', style: { top: pos.top + 'px', left: pos.left + 'px' } },
               h('div', { className: 'hk-pop-head' }, h('span', null, '本会话钩子'), h('span', null, `${runs.length} 次`)),
               err ? h('div', { className: 'hk-note', 'data-kind': 'err' }, err) : null,
               recent.length === 0
@@ -229,6 +276,60 @@ window.__ModuleLoader__.load({
       )
     }
 
+    // ── 配置文档：解析 / 序列化（设置页增删改用） ──────────────────────
+    const EVENT_ALL = ['SessionStart', 'UserPromptSubmit', 'PreToolUse', 'PostToolUse', 'Stop']
+
+    /** 把 hooks.json 原文解析成 { hooks, extra }。hooks 里每个事件是原始条目数组。 */
+    function parseDoc(text) {
+      const raw = String(text || '').trim() ? JSON.parse(text) : {}
+      const root = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {}
+      const wrapped = root.hooks && typeof root.hooks === 'object' && !Array.isArray(root.hooks)
+      // 省略外层 hooks 的旧写法：只有事件名键才当钩子，其余（如 _comment）归 extra，
+      // 否则序列化回去会把 _comment 塞进 hooks 里，文件越写越脏。
+      const hooks = {}
+      const extra = {}
+      if (wrapped) {
+        for (const [k, v] of Object.entries(root)) {
+          if (k === 'hooks') continue
+          extra[k] = v
+        }
+        Object.assign(hooks, root.hooks)
+      } else {
+        for (const [k, v] of Object.entries(root)) {
+          if (EVENT_ALL.includes(k)) hooks[k] = v
+          else extra[k] = v
+        }
+      }
+      return { hooks, extra }
+    }
+
+    function buildText(hooks, extra) {
+      return JSON.stringify({ ...extra, hooks }, null, 2)
+    }
+
+    /** 条目可能是字符串或对象，统一读成可编辑形态。 */
+    function asEntry(e) {
+      if (typeof e === 'string') return { command: e, matcher: '', timeoutMs: 0, disabled: false }
+      if (e && typeof e === 'object') {
+        return {
+          command: typeof e.command === 'string' ? e.command : '',
+          matcher: typeof e.matcher === 'string' ? e.matcher : '',
+          timeoutMs: Number(e.timeoutMs) || 0,
+          disabled: e.disabled === true,
+        }
+      }
+      return { command: '', matcher: '', timeoutMs: 0, disabled: false, invalid: true }
+    }
+
+    /** 写回统一用对象形态；空字段不落盘，保持文件干净。 */
+    function toEntry(v) {
+      const o = { command: v.command }
+      if (v.matcher) o.matcher = v.matcher
+      if (v.timeoutMs > 0) o.timeoutMs = v.timeoutMs
+      if (v.disabled) o.disabled = true
+      return o
+    }
+
     // ── 设置页 ──────────────────────────────────────────────────────────
     function HooksSettings() {
       const [info, setInfo] = useState(null)
@@ -236,6 +337,9 @@ window.__ModuleLoader__.load({
       const [dirty, setDirty] = useState(false)
       const [note, setNote] = useState(null)
       const [busy, setBusy] = useState(false)
+      // 正在展开「添加」表单的事件名；null 表示都没展开。
+      const [adding, setAdding] = useState(null)
+      const [form, setForm] = useState({ command: '', matcher: '', timeoutMs: '' })
 
       const loadAll = useCallback(async () => {
         try {
@@ -296,10 +400,142 @@ window.__ModuleLoader__.load({
         }
       }
 
+      // 增删改：改完直接落盘生效，用户不用再去点保存。
+      const mutate = async (fn, okText) => {
+        let doc
+        try {
+          doc = parseDoc(text)
+        } catch (e) {
+          setNote({ kind: 'err', text: `当前配置不是合法 JSON，先修好再操作：${e instanceof Error ? e.message : String(e)}` })
+          return
+        }
+        const next = JSON.parse(JSON.stringify(doc.hooks))
+        fn(next)
+        const nextText = buildText(next, doc.extra)
+        setText(nextText)
+        setDirty(false)
+        setBusy(true)
+        try {
+          const res = await apiPost({ op: 'writeFile', text: nextText })
+          setNote({ kind: 'ok', text: okText + (res.lastError ? `；但重载失败：${res.lastError}` : '') })
+          const data = await apiGet('')
+          setInfo(data)
+        } catch (e) {
+          setNote({ kind: 'err', text: e instanceof Error ? e.message : String(e) })
+        } finally {
+          setBusy(false)
+        }
+      }
+
+      const addHook = (ev) => {
+        const cmd = form.command.trim()
+        if (!cmd) {
+          setNote({ kind: 'err', text: '命令不能为空' })
+          return
+        }
+        const entry = toEntry({
+          command: cmd,
+          matcher: form.matcher.trim(),
+          timeoutMs: Number(form.timeoutMs) || 0,
+          disabled: false,
+        })
+        mutate((hooks) => {
+          const list = Array.isArray(hooks[ev]) ? hooks[ev].slice() : []
+          list.push(entry)
+          hooks[ev] = list
+        }, `已添加 ${ev} 钩子`)
+        setAdding(null)
+        setForm({ command: '', matcher: '', timeoutMs: '' })
+      }
+
+      const toggleHook = (ev, i) => {
+        mutate((hooks) => {
+          const list = hooks[ev]
+          if (!Array.isArray(list)) return
+          const cur = asEntry(list[i])
+          list[i] = toEntry({ ...cur, disabled: !cur.disabled })
+        }, `已切换 ${ev} 第 ${i + 1} 条`)
+      }
+
+      const removeHook = (ev, i) => {
+        mutate((hooks) => {
+          const list = hooks[ev]
+          if (!Array.isArray(list)) return
+          list.splice(i, 1)
+          if (list.length === 0) delete hooks[ev]
+        }, `已删除 ${ev} 第 ${i + 1} 条`)
+      }
+
       const events = info?.events || []
       const counts = info?.counts || {}
       const runs = (info?.runs || []).slice(-40).reverse()
-      const all = Object.keys(EVENT_LABEL)
+
+      // 当前配置里每个事件有哪些钩子（含被停用的）
+      let doc = { hooks: {}, extra: {} }
+      let docErr = ''
+      try {
+        doc = parseDoc(text)
+      } catch (e) {
+        docErr = e instanceof Error ? e.message : String(e)
+      }
+
+      const renderForm = (ev) =>
+        h(
+          'div',
+          { className: 'hk-form' },
+          h(
+            'div',
+            { className: 'hk-form-row' },
+            h('span', { className: 'hk-lbl' }, '命令'),
+            h('input', {
+              className: 'hk-inp',
+              placeholder: 'node F:/AI/scripts/xxx.mjs',
+              value: form.command,
+              spellCheck: false,
+              onChange: (e) => {
+                const v = e.target.value
+                setForm((f) => ({ ...f, command: v }))
+              },
+            }),
+          ),
+          ev === 'PreToolUse' || ev === 'PostToolUse'
+            ? h(
+                'div',
+                { className: 'hk-form-row' },
+                h('span', { className: 'hk-lbl' }, '匹配工具'),
+                h('input', {
+                  className: 'hk-inp',
+                  placeholder: '正则，留空 = 全部工具，如 Write|Edit',
+                  value: form.matcher,
+                  spellCheck: false,
+                  onChange: (e) => {
+                    const v = e.target.value
+                    setForm((f) => ({ ...f, matcher: v }))
+                  },
+                }),
+              )
+            : null,
+          h(
+            'div',
+            { className: 'hk-form-row' },
+            h('span', { className: 'hk-lbl' }, '超时 ms'),
+            h('input', {
+              className: 'hk-inp',
+              placeholder: '留空用默认',
+              value: form.timeoutMs,
+              onChange: (e) => {
+                const v = e.target.value
+                setForm((f) => ({ ...f, timeoutMs: v }))
+              },
+            }),
+          ),
+          h(
+            'div',
+            { className: 'hk-bar', style: { marginTop: 2 } },
+            h('button', { className: 'hk-act', 'data-primary': 'true', type: 'button', disabled: busy, onClick: () => addHook(ev) }, '添加'),
+            h('button', { className: 'hk-act', type: 'button', disabled: busy, onClick: () => { setAdding(null); setForm({ command: '', matcher: '', timeoutMs: '' }) } }, '取消'),
+          ),
+        )
 
       return h(
         'div',
@@ -310,35 +546,114 @@ window.__ModuleLoader__.load({
           'div',
           { className: 'hk-card' },
           h('h4', null, '钩子配置'),
-          h('p', null, '与 Claude Code 的 hooks.json 格式一致。保存后立即生效，无需重启。'),
+          h('p', null, '与 Claude Code 的 hooks.json 格式一致。下面的操作会直接写盘并立即生效，无需重启。'),
           h('div', { className: 'hk-path', style: { marginTop: 6 } }, info?.configFile || '~/.dsh/hooks/hooks.json'),
+          note ? h('div', { className: 'hk-note', 'data-kind': note.kind, style: { marginTop: 10 } }, note.text) : null,
+          info?.lastError ? h('div', { className: 'hk-note', 'data-kind': 'err', style: { marginTop: 8 } }, info.lastError) : null,
         ),
 
-        h(
-          'div',
-          { className: 'hk-card' },
-          h('h4', null, '事件总览'),
-          h('p', null, '灰色表示当前配置里没有该事件。'),
-          all.map((ev) =>
-            h(
+        docErr
+          ? h(
               'div',
-              { className: 'hk-ev', 'data-on': events.includes(ev) ? 'true' : 'false', key: ev },
-              h(
-                'div',
-                null,
-                h('div', { className: 'hk-ev-name' }, `${ev}　${EVENT_LABEL[ev]}`),
-                h('div', { className: 'hk-ev-desc' }, EVENT_DESC[ev]),
-              ),
-              h('div', { className: 'hk-ev-cnt' }, events.includes(ev) ? `已启用 · ${counts[ev] || 0} 次` : '未启用'),
+              { className: 'hk-card' },
+              h('h4', null, '事件'),
+              h('div', { className: 'hk-note', 'data-kind': 'err' }, `配置解析失败：${docErr}。请在下方「配置文件」里修正 JSON。`),
+            )
+          : h(
+              'div',
+              { className: 'hk-card' },
+              h('h4', null, '事件'),
+              h('p', null, '每个事件下可以挂多条钩子；开关控制启停，删除才真正移除。'),
+              EVENT_ALL.map((ev) => {
+                const rawList = Array.isArray(doc.hooks[ev]) ? doc.hooks[ev] : []
+                const on = events.includes(ev)
+                return h(
+                  'div',
+                  { className: 'hk-ev', 'data-on': on ? 'true' : 'false', key: ev },
+                  h(
+                    'div',
+                    { className: 'hk-ev-head' },
+                    h(
+                      'div',
+                      { style: { flex: 1, minWidth: 0 } },
+                      h('div', { className: 'hk-ev-name' }, `${ev}　${EVENT_LABEL[ev]}`),
+                      h('div', { className: 'hk-ev-desc' }, EVENT_DESC[ev]),
+                    ),
+                    h(
+                      'div',
+                      { className: 'hk-ev-cnt' },
+                      on ? `生效 ${rawList.length} 条 · 已跑 ${counts[ev] || 0} 次` : rawList.length ? `${rawList.length} 条已停用` : '未配置',
+                    ),
+                  ),
+                  rawList.length === 0
+                    ? h('div', { className: 'hk-empty-sm' }, '还没有钩子')
+                    : rawList.map((raw, i) => {
+                        const v = asEntry(raw)
+                        return h(
+                          'div',
+                          { className: 'hk-item', 'data-off': v.disabled ? 'true' : 'false', key: i },
+                          h(
+                            'div',
+                            { className: 'hk-item-main' },
+                            h('div', { className: 'hk-item-cmd' }, v.command || '（空命令，不会执行）'),
+                            v.matcher || v.timeoutMs
+                              ? h(
+                                  'div',
+                                  { className: 'hk-item-sub' },
+                                  [v.matcher ? `匹配 ${v.matcher}` : '', v.timeoutMs ? `超时 ${v.timeoutMs}ms` : ''].filter(Boolean).join(' · '),
+                                )
+                              : null,
+                          ),
+                          h(
+                            'button',
+                            {
+                              className: 'hk-mini',
+                              type: 'button',
+                              title: v.disabled ? '启用' : '停用',
+                              'data-on': v.disabled ? 'false' : 'true',
+                              disabled: busy,
+                              onClick: () => toggleHook(ev, i),
+                            },
+                            v.disabled ? '○' : '●',
+                          ),
+                          h(
+                            'button',
+                            {
+                              className: 'hk-mini',
+                              type: 'button',
+                              title: '删除',
+                              disabled: busy,
+                              onClick: () => removeHook(ev, i),
+                            },
+                            '✕',
+                          ),
+                        )
+                      }),
+                  adding === ev
+                    ? renderForm(ev)
+                    : h(
+                        'button',
+                        {
+                          className: 'hk-act',
+                          type: 'button',
+                          style: { alignSelf: 'flex-start', marginTop: 2 },
+                          disabled: busy,
+                          onClick: () => {
+                            setAdding(ev)
+                            setForm({ command: '', matcher: '', timeoutMs: '' })
+                          },
+                        },
+                        '＋ 添加钩子',
+                      ),
+                )
+              }),
             ),
-          ),
-        ),
 
         h(
           'div',
           { className: 'hk-card' },
           h('h4', null, '配置文件'),
-          h('p', null, '直接编辑 JSON。保存时先校验语法，写坏不会落盘。'),
+          h('p', null, '高级用法：直接编辑 JSON。保存时先校验语法，写坏不会落盘。'),
           h('textarea', {
             className: 'hk-editor',
             style: { marginTop: 10 },
@@ -350,8 +665,6 @@ window.__ModuleLoader__.load({
               setNote(null)
             },
           }),
-          note ? h('div', { className: 'hk-note', 'data-kind': note.kind, style: { marginTop: 10 } }, note.text) : null,
-          info?.lastError ? h('div', { className: 'hk-note', 'data-kind': 'err', style: { marginTop: 8 } }, info.lastError) : null,
           h(
             'div',
             { className: 'hk-bar' },
